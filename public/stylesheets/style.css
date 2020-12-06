@@ -1,8 +1,30 @@
-body {
-	padding: 50px;
-	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* Reset */
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
-a {
-	color: #00b7ff;
+html {
+	font-family: Helvetica, sans-serif;
+}
+
+ul {
+	list-style: none;
+}
+
+a,
+a:active {
+	text-decoration: none;
+	color: inherit;
+}
+
+/* App */
+
+.app-wrapper {
+	max-width: 1200px;
+	margin: 0 auto;
 }
