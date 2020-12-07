@@ -1,13 +1,25 @@
 const sqlite = require("sqlite3").verbose();
 
-module.exports.init = () => {
-	const db = new sqlite.Database("./database/todos.sql");
+const connect = () => {
+	return new sqlite.Database("./database/todos.sql");
+};
 
+const init = () => {
+	const db = connect();
+	//
+	// , completed, created_at, updated_at, deleted_at
 	db.serialize(() => {
 		const sql = `
-			CREATE TABLE IF NOT EXISTS todos 
-			(id INTEGER PRIMARY KEY, title VARCHAR(140), description TEXT, due DATE, completed BOOLEAN, created DATETIME, updated DATETIME, deleted DATETIME)
+			CREATE TABLE IF NOT EXISTS todos (
+				id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(140), due_at DATE,
+				completed BOOLEAN, created_at DATETIME, updated_at DATETIME, deleted_at DATETIME
+			)
 		`;
 		db.run(sql);
 	});
+};
+
+module.exports = {
+	connect,
+	init,
 };
