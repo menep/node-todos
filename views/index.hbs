@@ -2,19 +2,21 @@
 	<table class="mx-auto">
 		<thead>
 			<tr>
-				<th></th>
 				<th>Todos</th>
 				<th>Due</th>
+				<th>Completed</th>
 			</tr>
 		</thead>
 		<tbody>
+			{{#each todos}}
 			<tr>
+				<td>{{ this.title }}</td>
+				<td>{{ this.due_at }}</td>
 				<td>
-					<input type="checkbox">
+					<input type="checkbox" {{#if this.completed}} checked {{/if}}>
 				</td>
-				<td>Test todo</td>
-				<td>01/01/21</td>
 			</tr>
+			{{/each}}
 		</tbody>
 	</table>
 </main>
