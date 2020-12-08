@@ -13,7 +13,7 @@
 				<td>{{ this.title }}</td>
 				<td>{{ this.due_at }}</td>
 				<td>
-					<input type="checkbox" {{#if this.completed}} checked {{/if}}>
+					<input type="checkbox" disabled {{#if this.completed}} checked {{/if}}>
 				</td>
 			</tr>
 			{{/each}}
