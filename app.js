@@ -7,6 +7,7 @@ const hbs = require("hbs");
 const db = require("./database/db");
 
 const indexRouter = require("./routes/index");
+const todoRouter = require("./routes/todo");
 const topBar = require("./views/partials/top-bar.hbs");
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/todo", todoRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
