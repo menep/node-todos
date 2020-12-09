@@ -7,8 +7,9 @@ class Todo {
 		}
 	}
 
-	static all(cb) {
-		const sql = "SELECT * FROM todos";
+	static all({ sort = "due_at", order = "desc" }, cb) {
+		const sql = `SELECT * FROM todos ORDER BY ${sort} ${order}`;
+
 		db.all(sql, cb);
 	}
 
