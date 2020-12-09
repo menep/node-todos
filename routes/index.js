@@ -4,7 +4,7 @@ const Todo = require("../models/Todo");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-	Todo.all((err, rows) => {
+	Todo.all(req.query, (err, rows) => {
 		const todos = rows.map((el) => {
 			el.completed = !!el.completed;
 
