@@ -16,7 +16,9 @@
 		<tbody>
 			{{#each todos}}
 			<tr>
-				<td>{{ this.title }}</td>
+				<td>
+					<a href="/{{ this.id }}">{{ this.title }}</a>
+				</td>
 				<td>{{ this.due_at }}</td>
 				<td>
 					<input type="checkbox" disabled {{#if this.completed}} checked {{/if}}>
