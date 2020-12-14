@@ -1,0 +1,21 @@
+<main class="text--center">
+	<p><span class="text--bold">Title:</span> {{ todo.title }}</p>
+	<p><span class="text--bold">Completed:</span>
+		{{#if todo.completed }}
+		<input type="checkbox" disabled checked>
+		{{else }}
+		<input type="checkbox" disabled>
+		{{/if }}
+
+	</p>
+	<p><span class="text--bold">Due:</span> {{ todo.due_at }}</p>
+	<p><span class="text--bold">Created:</span> {{ todo.created_at }}</p>
+	{{#if todo.updated_at}}
+	<p>Updated: {{ todo.updated_at }} </p>
+	{{/if}}
+	{{#if todo.deleted_at}}
+	<p>Deleted: </p>
+	{{/if}}
+
+	<a href="/{{ todo.id }}/edit">Edit</a>
+</main>
