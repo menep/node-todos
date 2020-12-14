@@ -2,10 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Todo = require("../models/Todo");
 
-router.get("/", (req, res, next) => {
-	res.render("add-todo");
-});
-
 router.post("/", (req, res, next) => {
 	const title = req.body.title;
 	const due_at = req.body.due_at;

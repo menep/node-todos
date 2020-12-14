@@ -15,4 +15,8 @@ router.get("/", function (req, res, next) {
 	});
 });
 
+router.get("/new", (req, res, next) => {
+	res.render("add-todo");
+});
+
 module.exports = router;
