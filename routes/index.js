@@ -32,4 +32,13 @@ router.post("/", (req, res, next) => {
 	});
 });
 
+router.get("/:id", (req, res, next) => {
+	Todo.get(req.params.id, (err, row) => {
+		if (err) {
+			console.log(err);
+		}
+		res.render("show", { todo: row });
+	});
+});
+
 module.exports = router;
