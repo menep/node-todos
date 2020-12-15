@@ -41,4 +41,13 @@ router.get("/:id", (req, res, next) => {
 	});
 });
 
+router.get("/:id/edit", (req, res, next) => {
+	Todo.get(req.params.id, (err, row) => {
+		if (err) {
+			console.log(err);
+		}
+		res.render("edit", { todo: row });
+	});
+});
+
 module.exports = router;
