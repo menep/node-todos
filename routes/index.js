@@ -50,4 +50,19 @@ router.get("/:id/edit", (req, res, next) => {
 	});
 });
 
+router.post("/:id", (req, res, next) => {
+	const title = req.body.title;
+	const due_at = req.body.due_at;
+	const completed = !!req.body.completed;
+
+	const todo = new Todo({ title, due_at, completed });
+
+	todo.update(req.params.id, (err) => {
+		if (err) {
+			console.log(err);
+		}
+		res.redirect("/");
+	});
+});
+
 module.exports = router;
