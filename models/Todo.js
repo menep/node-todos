@@ -8,13 +8,13 @@ class Todo {
 	}
 
 	static all({ sort = "due_at", order = "desc" }, cb) {
-		const sql = `SELECT * FROM todos ORDER BY ${sort} ${order}`;
+		const sql = `SELECT * FROM todos ORDER BY ${sort} ${order};`;
 
 		db.all(sql, cb);
 	}
 
 	static get(id, cb) {
-		const sql = `SELECT * FROM todos WHERE id = :id`;
+		const sql = `SELECT * FROM todos WHERE id = :id;`;
 
 		db.get(sql, id, cb);
 	}
@@ -24,9 +24,18 @@ class Todo {
 			title, due_at, created_at
 		) VALUES (
 			:title, :due_at, datetime('now')
-		)`;
+		);`;
 
 		db.run(sql, this.title, this.due_at, cb);
+	}
+
+	update(id, cb) {
+		const sql = `UPDATE todos 
+			SET title = :title, due_at = :due_at, completed = :completed, updated_at = datetime('now')
+			WHERE id = :id
+		;`;
+
+		db.run(sql, this.title, this.due_at, this.completed, id, cb);
 	}
 }
 
