@@ -1,8 +1,10 @@
 <main>
-	<form action="/{{ todo.id }}" method="put" class="flex flex--column align--center">
+	<form action="/{{ todo.id }}" method="post" class="flex flex--column align--center">
 		<label>Title: <input type="text" name="title" value="{{ todo.title }}"></label>
 		<label>Due: <input type="date" name="due_at" value="{{ todo.due_at }}"></label>
-		<label>Completed: <input type="checkbox" name="completed" {{#if todo.completed }} checked {{/if }}></label>
+		<label>Completed:
+			<input type="checkbox" name="completed" value="1" {{#if todo.completed }} checked {{/if }}>
+		</label>
 		<input type="submit" value="Submit">
 	</form>
 </main>
