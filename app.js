@@ -16,6 +16,11 @@ db.init();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 hbs.registerPartial("top-bar", topBar);
+hbs.registerHelper("section", function (name, options) {
+	if (!this.section) this.section = {};
+	this.section[name] = options.fn(this);
+	return null;
+});
 
 app.use(logger("dev"));
 app.use(express.json());
