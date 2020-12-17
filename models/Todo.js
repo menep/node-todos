@@ -19,6 +19,12 @@ class Todo {
 		db.get(sql, id, cb);
 	}
 
+	static delete(id, cb) {
+		const sql = `UPDATE todos SET deleted_at = datetime('now') WHERE id = :id;`;
+
+		db.run(sql, id, cb);
+	}
+
 	save(cb) {
 		const sql = `INSERT INTO todos (
 			title, due_at, created_at
