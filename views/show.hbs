@@ -18,4 +18,9 @@
 	{{/if}}
 
 	<a href="/{{ todo.id }}/edit">Edit</a>
+	<button id="delete" data-id="{{ todo.id }}">Delete</button>
 </main>
+
+{{#section 'script'}}
+<script src="/javascripts/delete.js" type="application/javascript" defer></script>
+{{/section}}
