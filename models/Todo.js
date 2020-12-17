@@ -8,7 +8,7 @@ class Todo {
 	}
 
 	static all({ sort = "due_at", order = "desc" }, cb) {
-		const sql = `SELECT * FROM todos ORDER BY ${sort} ${order};`;
+		const sql = `SELECT * FROM todos WHERE deleted_at IS NULL ORDER BY ${sort} ${order} ;`;
 
 		db.all(sql, cb);
 	}
