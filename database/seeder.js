@@ -1,13 +1,21 @@
-const db = require("./db").connect();
+const db = require("./db");
+const faker = require("faker");
+const datetime = require("../utils/datetime.js");
+const dbConnection = db.connect();
 
-const sql = `
-	INSERT INTO todos (title, due_at, completed, created_at, updated_at, deleted_at) VALUES 
-	('test1', date('2021-01-01'), false, datetime('now'), NULL, NULL),
-	('test2', date('2021-01-02'), true, datetime('now'), datetime('now'), NULL),
-	('test3', date('2021-01-03'), false, datetime('now'), NULL, datetime('now')),
-	('test4', date('2021-01-04'), true, datetime('now'), NULL, NULL),
-	('test5', date('2021-01-05'), false, datetime('now'), datetime('now'), datetime('now')),
-	('test6', date('2021-01-06'), true, datetime('now'), NULL, datetime('now'))
-`;
+const seedRow = () => {
+	const title = faker.lorem.words(5);
+	const due_at = datetime.formatDateYYYYMMDD(faker.date.future(0));
+	const completed = faker.random.boolean();
+	const created_at = datetime.formatDateYYYYMMDD(faker.date.past(0));
 
-db.run(sql);
+	var stmt = dbConnection.prepare(`INSERT INTO todos (title, due_at, completed, created_at, updated_at, deleted_at) VALUES 
+		(?, ?, ?, ?, NULL, NULL)
+	;`);
+	stmt.run(title, due_at, completed, created_at);
+	stmt.finalize();
+};
+
+for (let index = 0; index < 10; index++) {
+	seedRow();
+}

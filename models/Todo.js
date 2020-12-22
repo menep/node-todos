@@ -14,7 +14,7 @@ class Todo {
 	}
 
 	static get(id, cb) {
-		const sql = `SELECT * FROM todos WHERE id = :id;`;
+		const sql = "SELECT * FROM todos WHERE id = :id;";
 
 		db.get(sql, id, cb);
 	}
