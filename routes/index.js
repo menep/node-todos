@@ -1,6 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const Todo = require("../models/Todo");
+const createError = require("http-errors");
+
+router.param("id", (req, res, next, id) => {
+	// TODO: add row to req object and pass it to route handler
+	Todo.get(id, (_, row) => {
+		if (!row) {
+			next(createError(404));
+		}
+		next();
+	});
+});
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
