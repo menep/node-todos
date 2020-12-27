@@ -31,13 +31,12 @@ class Todo {
 		});
 	}
 
-	update(id, cb) {
-		const sql = `UPDATE todos
-			SET title = :title, due_at = :due_at, completed = :completed, updated_at = datetime('now')
-			WHERE id = :id
-		;`;
-
-		db.run(sql, this.title, this.due_at, this.completed, id, cb);
+	update(id) {
+		return db("todos").where({ id }).update({
+			title: this.title,
+			due_at: this.due_at,
+			completed: this.completed,
+		});
 	}
 }
 
