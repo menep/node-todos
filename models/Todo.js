@@ -8,15 +8,14 @@ class Todo {
 	}
 
 	static all({ sort = "due_at", order = "desc" }) {
-		return db
+		return db("todos")
 			.select()
-			.table("todos")
 			.whereNull("deleted_at")
 			.orderBy(sort, order);
 	}
 
 	static get(id) {
-		return db.where({ id }).select().table("todos");
+		return db("todos").where({ id }).select();
 	}
 
 	static delete(id) {
