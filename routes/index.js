@@ -26,21 +26,18 @@ router.get("/", function (req, res, next) {
 	});
 });
 
+/* GET render new todo form page */
 router.get("/new", (req, res, next) => {
 	res.render("new");
 });
 
+/* POST persist new todo */
 router.post("/", (req, res, next) => {
 	const title = req.body.title;
 	const due_at = req.body.due_at;
 	const todo = new Todo({ title, due_at });
 
-	todo.save((err) => {
-		if (err) {
-			console.log(err);
-		}
-		res.redirect("/");
-	});
+	todo.save().then(() => res.redirect("/"));
 });
 
 router.get("/:id", (req, res, next) => {
