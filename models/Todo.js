@@ -1,4 +1,4 @@
-const db = require("../database/db.js").db;
+const db = require("../database").db;
 
 class Todo {
 	constructor(obj) {

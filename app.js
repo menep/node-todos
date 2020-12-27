@@ -4,7 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const hbs = require("hbs");
-const initDb = require("./database/db").init;
+const initDb = require("./database").init;
 
 const indexRouter = require("./routes/index");
 const topBar = require("./views/partials/top-bar.hbs");
