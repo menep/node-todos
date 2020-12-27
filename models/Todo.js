@@ -1,4 +1,4 @@
-const db = require("../database/db.js").connect();
+const db = require("../database/db.js").db;
 
 class Todo {
 	constructor(obj) {
@@ -7,10 +7,12 @@ class Todo {
 		}
 	}
 
-	static all({ sort = "due_at", order = "desc" }, cb) {
-		const sql = `SELECT * FROM todos WHERE deleted_at IS NULL ORDER BY ${sort} ${order} ;`;
-
-		db.all(sql, cb);
+	static all({ sort = "due_at", order = "desc" }) {
+		return db
+			.select()
+			.table("todos")
+			.whereNull("deleted_at")
+			.orderBy(sort, order);
 	}
 
 	static get(id, cb) {
@@ -36,7 +38,7 @@ class Todo {
 	}
 
 	update(id, cb) {
-		const sql = `UPDATE todos 
+		const sql = `UPDATE todos
 			SET title = :title, due_at = :due_at, completed = :completed, updated_at = datetime('now')
 			WHERE id = :id
 		;`;
