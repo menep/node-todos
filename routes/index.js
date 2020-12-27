@@ -15,14 +15,14 @@ router.param("id", (req, res, next, id) => {
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-	Todo.all(req.query, (err, rows) => {
+	Todo.all({}).then((rows) => {
 		const todos = rows.map((el) => {
 			el.completed = !!el.completed;
 
 			return el;
 		});
 
-		res.render("index", { title: "Express", todos });
+		res.render("index", { title: "node-todos", todos });
 	});
 });
 
