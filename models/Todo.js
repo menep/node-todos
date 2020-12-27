@@ -23,14 +23,12 @@ class Todo {
 		return db("todos").where({ id }).update({ deleted_at: db.fn.now() });
 	}
 
-	save(cb) {
-		const sql = `INSERT INTO todos (
-			title, due_at, created_at
-		) VALUES (
-			:title, :due_at, datetime('now')
-		);`;
-
-		db.run(sql, this.title, this.due_at, cb);
+	save() {
+		return db("todos").insert({
+			title: this.title,
+			due_at: this.due_at,
+			created_at: db.fn.now(),
+		});
 	}
 
 	update(id, cb) {
