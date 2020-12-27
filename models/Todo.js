@@ -19,10 +19,8 @@ class Todo {
 		return db.where({ id }).select().table("todos");
 	}
 
-	static delete(id, cb) {
-		const sql = `UPDATE todos SET deleted_at = datetime('now') WHERE id = :id;`;
-
-		db.run(sql, id, cb);
+	static delete(id) {
+		return db("todos").where({ id }).update({ deleted_at: db.fn.now() });
 	}
 
 	save(cb) {
