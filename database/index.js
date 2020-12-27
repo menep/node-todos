@@ -1,11 +1,5 @@
-const db = require("knex")({
-	client: "sqlite3",
-	connection: {
-		filename: "./todos.sqlite",
-	},
-	useNullAsDefault: true,
-	debug: true,
-});
+const knexConfig = require("../knexfile");
+const db = require("knex")(knexConfig);
 
 const init = () => {
 	db.schema.hasTable("todos").then((exists) => {
