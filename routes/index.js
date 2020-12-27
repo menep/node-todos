@@ -5,8 +5,8 @@ const createError = require("http-errors");
 
 router.param("id", (req, res, next, id) => {
 	// TODO: add row to req object and pass it to route handler
-	Todo.get(id, (_, row) => {
-		if (!row) {
+	Todo.get(id).then((rows) => {
+		if (!rows.length) {
 			next(createError(404));
 		}
 		next();
@@ -15,52 +15,44 @@ router.param("id", (req, res, next, id) => {
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-	Todo.all(req.query, (err, rows) => {
+	Todo.all({}).then((rows) => {
 		const todos = rows.map((el) => {
 			el.completed = !!el.completed;
 
 			return el;
 		});
 
-		res.render("index", { title: "Express", todos });
+		res.render("index", { title: "node-todos", todos });
 	});
 });
 
+/* GET render new todo form page */
 router.get("/new", (req, res, next) => {
 	res.render("new");
 });
 
+/* POST persist new todo */
 router.post("/", (req, res, next) => {
 	const title = req.body.title;
 	const due_at = req.body.due_at;
 	const todo = new Todo({ title, due_at });
 
-	todo.save((err) => {
-		if (err) {
-			console.log(err);
-		}
-		res.redirect("/");
-	});
+	todo.save().then(() => res.redirect("/"));
 });
 
 router.get("/:id", (req, res, next) => {
-	Todo.get(req.params.id, (err, row) => {
-		if (err) {
-			console.log(err);
-		}
-		res.render("show", { todo: row });
+	Todo.get(req.params.id).then((rows) => {
+		res.render("show", { todo: rows[0] });
 	});
 });
 
 router.get("/:id/edit", (req, res, next) => {
-	Todo.get(req.params.id, (err, row) => {
-		if (err) {
-			console.log(err);
-		}
-		res.render("edit", { todo: row });
+	Todo.get(req.params.id).then((rows) => {
+		res.render("edit", { todo: rows[0] });
 	});
 });
 
+/* POST persist update to Todo */
 router.post("/:id", (req, res, next) => {
 	const title = req.body.title;
 	const due_at = req.body.due_at;
@@ -68,19 +60,11 @@ router.post("/:id", (req, res, next) => {
 
 	const todo = new Todo({ title, due_at, completed });
 
-	todo.update(req.params.id, (err) => {
-		if (err) {
-			console.log(err);
-		}
-		res.redirect("/");
-	});
+	todo.update(req.params.id).then(() => res.redirect("/"));
 });
 
 router.delete("/:id", (req, res, next) => {
-	Todo.delete(req.params.id, (err) => {
-		if (err) {
-			console.log(err);
-		}
+	Todo.delete(req.params.id).then(() => {
 		res.sendStatus(200);
 	});
 });

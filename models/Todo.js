@@ -1,4 +1,4 @@
-const db = require("../database/db.js").connect();
+const db = require("../database").db;
 
 class Todo {
 	constructor(obj) {
@@ -7,41 +7,35 @@ class Todo {
 		}
 	}
 
-	static all({ sort = "due_at", order = "desc" }, cb) {
-		const sql = `SELECT * FROM todos WHERE deleted_at IS NULL ORDER BY ${sort} ${order} ;`;
-
-		db.all(sql, cb);
+	static all({ sort = "due_at", order = "desc" }) {
+		return db("todos")
+			.select()
+			.whereNull("deleted_at")
+			.orderBy(sort, order);
 	}
 
-	static get(id, cb) {
-		const sql = "SELECT * FROM todos WHERE id = :id;";
-
-		db.get(sql, id, cb);
+	static get(id) {
+		return db("todos").where({ id }).select();
 	}
 
-	static delete(id, cb) {
-		const sql = `UPDATE todos SET deleted_at = datetime('now') WHERE id = :id;`;
-
-		db.run(sql, id, cb);
+	static delete(id) {
+		return db("todos").where({ id }).update({ deleted_at: db.fn.now() });
 	}
 
-	save(cb) {
-		const sql = `INSERT INTO todos (
-			title, due_at, created_at
-		) VALUES (
-			:title, :due_at, datetime('now')
-		);`;
-
-		db.run(sql, this.title, this.due_at, cb);
+	save() {
+		return db("todos").insert({
+			title: this.title,
+			due_at: this.due_at,
+			created_at: db.fn.now(),
+		});
 	}
 
-	update(id, cb) {
-		const sql = `UPDATE todos 
-			SET title = :title, due_at = :due_at, completed = :completed, updated_at = datetime('now')
-			WHERE id = :id
-		;`;
-
-		db.run(sql, this.title, this.due_at, this.completed, id, cb);
+	update(id) {
+		return db("todos").where({ id }).update({
+			title: this.title,
+			due_at: this.due_at,
+			completed: this.completed,
+		});
 	}
 }
 

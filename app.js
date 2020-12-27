@@ -4,13 +4,13 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const hbs = require("hbs");
-const db = require("./database/db");
+const initDb = require("./database").init;
 
 const indexRouter = require("./routes/index");
 const topBar = require("./views/partials/top-bar.hbs");
 
 const app = express();
-db.init();
+initDb();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
