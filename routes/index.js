@@ -71,10 +71,7 @@ router.post("/:id", (req, res, next) => {
 });
 
 router.delete("/:id", (req, res, next) => {
-	Todo.delete(req.params.id, (err) => {
-		if (err) {
-			console.log(err);
-		}
+	Todo.delete(req.params.id).then(() => {
 		res.sendStatus(200);
 	});
 });
