@@ -52,6 +52,7 @@ router.get("/:id/edit", (req, res, next) => {
 	});
 });
 
+/* POST persist update to Todo */
 router.post("/:id", (req, res, next) => {
 	const title = req.body.title;
 	const due_at = req.body.due_at;
@@ -59,12 +60,7 @@ router.post("/:id", (req, res, next) => {
 
 	const todo = new Todo({ title, due_at, completed });
 
-	todo.update(req.params.id, (err) => {
-		if (err) {
-			console.log(err);
-		}
-		res.redirect("/");
-	});
+	todo.update(req.params.id).then(() => res.redirect("/"));
 });
 
 router.delete("/:id", (req, res, next) => {
