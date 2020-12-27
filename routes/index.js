@@ -5,8 +5,8 @@ const createError = require("http-errors");
 
 router.param("id", (req, res, next, id) => {
 	// TODO: add row to req object and pass it to route handler
-	Todo.get(id, (_, row) => {
-		if (!row) {
+	Todo.get(id).then((rows) => {
+		if (!rows.length) {
 			next(createError(404));
 		}
 		next();
@@ -44,20 +44,14 @@ router.post("/", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-	Todo.get(req.params.id, (err, row) => {
-		if (err) {
-			console.log(err);
-		}
-		res.render("show", { todo: row });
+	Todo.get(req.params.id).then((rows) => {
+		res.render("show", { todo: rows[0] });
 	});
 });
 
 router.get("/:id/edit", (req, res, next) => {
-	Todo.get(req.params.id, (err, row) => {
-		if (err) {
-			console.log(err);
-		}
-		res.render("edit", { todo: row });
+	Todo.get(req.params.id).then((rows) => {
+		res.render("edit", { todo: rows[0] });
 	});
 });
 
