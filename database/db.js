@@ -1,24 +1,26 @@
-const sqlite = require("sqlite3").verbose();
-
-const connect = () => {
-	return new sqlite.Database("./database/todos.sql");
-};
+const db = require("knex")({
+	client: "sqlite3",
+	connection: {
+		filename: "./todos.sqlite",
+	},
+	useNullAsDefault: true,
+	debug: true,
+});
 
 const init = () => {
-	const db = connect();
-
-	db.serialize(() => {
-		const sql = `
-			CREATE TABLE IF NOT EXISTS todos (
-				id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(140), due_at DATE,
-				completed BOOLEAN DEFAULT false, created_at DATETIME, updated_at DATETIME, deleted_at DATETIME
-			)
-		`;
-		db.run(sql);
+	db.schema.hasTable("todos").then((exists) => {
+		if (!exists) {
+			return db.schema.createTable("todos", (t) => {
+				t.increments("id");
+				t.text("title");
+				t.date("due_at");
+				t.boolean("completed");
+				t.dateTime("created_at");
+				t.dateTime("updated_at");
+				t.dateTime("deleted_at");
+			});
+		}
 	});
 };
 
-module.exports = {
-	connect,
-	init,
-};
+module.exports = { db, init };
