@@ -6,6 +6,6 @@ module.exports = {
 	useNullAsDefault: true,
 	debug: true,
 	seeds: {
-		directory: "./seeds",
+		directory: "./database/seeds",
 	},
 };
