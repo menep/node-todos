@@ -15,10 +15,8 @@ class Todo {
 			.orderBy(sort, order);
 	}
 
-	static get(id, cb) {
-		const sql = "SELECT * FROM todos WHERE id = :id;";
-
-		db.get(sql, id, cb);
+	static get(id) {
+		return db.where({ id }).select().table("todos");
 	}
 
 	static delete(id, cb) {
