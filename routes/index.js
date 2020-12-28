@@ -4,11 +4,11 @@ const Todo = require("../models/Todo");
 const createError = require("http-errors");
 
 router.param("id", (req, res, next, id) => {
-	// TODO: add row to req object and pass it to route handler
 	Todo.get(id).then((rows) => {
 		if (!rows.length) {
 			next(createError(404));
 		}
+		req.todo = rows[0];
 		next();
 	});
 });
@@ -41,15 +41,15 @@ router.post("/", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-	Todo.get(req.params.id).then((rows) => {
-		res.render("show", { todo: rows[0] });
-	});
+	if (req.todo) {
+		res.render("show", { todo: req.todo });
+	}
 });
 
 router.get("/:id/edit", (req, res, next) => {
-	Todo.get(req.params.id).then((rows) => {
-		res.render("edit", { todo: rows[0] });
-	});
+	if (req.todo) {
+		res.render("edit", { todo: req.todo });
+	}
 });
 
 /* POST persist update to Todo */
